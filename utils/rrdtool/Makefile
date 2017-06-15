@@ -40,7 +40,7 @@ $(call Package/rrdtool/Default)
   SECTION:=libs
   CATEGORY:=Libraries
   TITLE+= management library (v1.2.x)
-  DEPENDS+= +libart +libfreetype +libpng +zlib +libpthread +libglib2
+  DEPENDS+= +libart +libfreetype +libpng +zlib +libpthread +glib2 +pango
 endef
 
 define Package/rrdcgi
