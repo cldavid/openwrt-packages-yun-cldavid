@@ -15,13 +15,11 @@ PKG_SOURCE_URL:=http://oss.oetiker.ch/rrdtool/pub/
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_MD5SUM:=2f37eeb613bed11077470c9e2057010e
 
-PKG_BUILD_DEPENDS:=python
+PKG_BUILD_DEPENDS:=python 
 
 PKG_CONFIG_DEPENDS:= \
 	CONFIG_PACKAGE_python-rrd \
 	CONFIG_PACKAGE_rrdcgi \
-
-PKG_FIXUP:=autoreconf
 
 PKG_INSTALL:=1
 
@@ -40,7 +38,7 @@ $(call Package/rrdtool/Default)
   SECTION:=libs
   CATEGORY:=Libraries
   TITLE+= management library (v1.2.x)
-  DEPENDS+= +libart +libfreetype +libpng +zlib +libpthread +glib2 +pango
+  DEPENDS+= +libart +libfreetype +libpng +zlib +libpthread +glib2 +pango +libxml2
 endef
 
 define Package/rrdcgi
@@ -61,7 +59,7 @@ $(call Package/rrdtool/Default)
   SECTION:=lang
   CATEGORY:=Languages
   TITLE+= python bindings (v1.2.x)
-  DEPENDS+= +python-mini +librrd
+  DEPENDS+= +python-mini +librrd 
 endef
 
 CONFIGURE_ARGS += \
@@ -72,9 +70,7 @@ CONFIGURE_ARGS += \
 	--disable-mmap \
 	--disable-perl \
 	--disable-tcl \
-	--disable-ruby \
-	--without-x \
-	--with-rrd-default-font="/usr/share/rrdtool/fonts/DejaVuSansMono-Roman.ttf" \
+	--disable-ruby 
 
 CONFIGURE_VARS += \
 	rd_cv_ieee_works=yes \
@@ -105,16 +101,13 @@ define Build/InstallDev
 	$(INSTALL_DIR) $(1)/usr/lib/rrdtool-1.2/include
 	$(CP) $(PKG_INSTALL_DIR)/usr/include/rrd.h $(1)/usr/lib/rrdtool-1.2/include/
 	$(INSTALL_DIR) $(1)/usr/lib/rrdtool-1.2/lib
-	$(CP) $(PKG_INSTALL_DIR)/usr/lib/librrd{,_th}.{a,so*} $(1)/usr/lib/rrdtool-1.2/lib/
+	$(CP) $(PKG_INSTALL_DIR)/usr/lib/librrd{,}.{a,so*} $(1)/usr/lib/rrdtool-1.2/lib/
 endef
 
 define Package/librrd/install
 	$(INSTALL_DIR) $(1)/usr/lib
 	$(CP) $(PKG_INSTALL_DIR)/usr/lib/librrd.so.* $(1)/usr/lib/
-	$(CP) $(PKG_INSTALL_DIR)/usr/lib/librrd_th.so.* $(1)/usr/lib/
 	$(INSTALL_DIR) $(1)/usr/share/rrdtool/fonts
-	$(CP) $(PKG_BUILD_DIR)/src/DejaVuSansMono-Roman.ttf \
-		$(1)/usr/share/rrdtool/fonts/
 endef
 
 define Package/rrdcgi/install
